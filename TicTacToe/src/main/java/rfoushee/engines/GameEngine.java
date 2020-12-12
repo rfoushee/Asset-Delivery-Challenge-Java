@@ -9,12 +9,23 @@ import rfoushee.models.WinningPositions;
 
 public class GameEngine {
 
+    private final static int MAX_NUMBER_OF_PLAYER_MOVES = 9;
+
     public static boolean isGameComplete(GameBoardV2 gameBoard) throws IllegalArgumentException {
         if (gameBoard == null) {
             throw new IllegalArgumentException();
         }
 
-        return false;
+        int totalNumberOfMoves = 0;
+        for (HashSet<Integer> playersMove : gameBoard.getGameState()) {
+            totalNumberOfMoves += playersMove.size();
+        }
+        if (totalNumberOfMoves == MAX_NUMBER_OF_PLAYER_MOVES) {
+            return true;
+        }
+
+        WinningPlayer winner = getWinner(gameBoard);
+        return winner != WinningPlayer.NONE;
     }
 
     public static WinningPlayer getWinner(GameBoardV2 gameBoard) throws IllegalArgumentException {
