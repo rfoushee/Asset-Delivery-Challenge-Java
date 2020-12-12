@@ -6,8 +6,14 @@ import rfoushee.models.GameBoardV2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class GameEngineTests {
+
     @Test
     void isGameComplete_should_return_false_given_empty_board() {
         // GIVEN: empty GameBoard
@@ -18,5 +24,36 @@ public class GameEngineTests {
 
         // THEN: IsGameComplete returns false
         assertFalse(result);
+    }
+
+    @Test
+    void isGameComplete_should_throw_illegalargumentexception_given_null_board() {
+        // WHEN IsGameComplete is called
+        assertThrows(IllegalArgumentException.class, () -> GameEngine.isGameComplete(null));
+    }
+
+    @Test
+    void isGameComplete_should_return_true_given_X_winning_board() {
+        // GIVEN: mocked game board with X winning state
+        ArrayList<HashSet<Integer>> playersMoves = new ArrayList<>();
+        HashSet<Integer> xMoves = new HashSet<>();
+        xMoves.add(0);
+        xMoves.add(1);
+        xMoves.add(2);
+        HashSet<Integer> yMoves = new HashSet<>();
+        xMoves.add(4);
+        xMoves.add(5);
+        xMoves.add(7);
+        playersMoves.add(xMoves);
+        playersMoves.add(yMoves);
+
+        // GIVEN: empty GameBoard
+        GameBoardV2 gameBoard = new GameBoardV2();
+
+        // WHEN IsGameComplete is called
+        boolean result = GameEngine.isGameComplete(gameBoard);
+
+        // THEN: isGameComplete returns true
+        assertTrue(result);
     }
 }
