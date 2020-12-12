@@ -3,11 +3,11 @@ package rfoushee.engines;
 import org.junit.jupiter.api.Test;
 
 import rfoushee.models.GameBoardV2;
+import rfoushee.models.WinningPlayer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,7 +33,13 @@ public class GameEngineTests {
     }
 
     @Test
-    void isGameComplete_should_return_true_given_X_winning_board() {
+    void getWinner_should_throw_illegalargumentexception_given_null_board() {
+        // WHEN IsGameComplete is called
+        assertThrows(IllegalArgumentException.class, () -> GameEngine.getWinner(null));
+    }
+
+    @Test
+    void getWinner_should_return_true_given_X_winning_board() {
         // GIVEN: mocked game board with X winning state
         ArrayList<HashSet<Integer>> playersMoves = new ArrayList<>();
         HashSet<Integer> xMoves = new HashSet<>();
@@ -51,9 +57,9 @@ public class GameEngineTests {
         GameBoardV2 gameBoard = new GameBoardV2();
 
         // WHEN IsGameComplete is called
-        boolean result = GameEngine.isGameComplete(gameBoard);
+        WinningPlayer winner = GameEngine.getWinner(gameBoard);
 
-        // THEN: isGameComplete returns true
-        assertTrue(result);
+        // THEN: getWinner returns true
+        assertEquals(winner, WinningPlayer.X);
     }
 }
