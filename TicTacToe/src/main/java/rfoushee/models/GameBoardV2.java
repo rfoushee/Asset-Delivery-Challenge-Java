@@ -28,4 +28,17 @@ public class GameBoardV2 {
         return state;
     }
 
+    public boolean addMove(WinningPlayer player, int move) {
+
+        if (move < 0 || move > 8) {
+            return false;
+        }
+        HashSet<Integer> playersMoves = state.get(player == WinningPlayer.X ? 0 : 1);
+        if (!playersMoves.contains(move)) {
+            playersMoves.add(move);
+            return true;
+        }
+        return false;
+    }
+
 }

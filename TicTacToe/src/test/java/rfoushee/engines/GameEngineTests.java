@@ -166,6 +166,31 @@ public class GameEngineTests {
     }
 
     @Test
+    void getWinner_should_return_playerO_given_diag_winning_board() {
+        // GIVEN: mocked game board with X winning state
+        ArrayList<HashSet<Integer>> playersMoves = new ArrayList<>();
+        HashSet<Integer> xMoves = new HashSet<>();
+        xMoves.add(0);
+        xMoves.add(5);
+        xMoves.add(8);
+        HashSet<Integer> oMoves = new HashSet<>();
+        oMoves.add(2);
+        oMoves.add(4);
+        oMoves.add(6);
+        playersMoves.add(xMoves);
+        playersMoves.add(oMoves);
+
+        // GIVEN: mocked GameBoard
+        GameBoardV2 gameBoard = new GameBoardV2(playersMoves);
+
+        // WHEN IsGameComplete is called
+        WinningPlayer winner = GameEngine.getWinner(gameBoard);
+
+        // THEN: getWinner returns true
+        assertEquals(winner, WinningPlayer.O);
+    }
+
+    @Test
     void getWinner_should_return_NONE_given_no_winner_board() {
         // GIVEN: mocked game board with X winning state
         ArrayList<HashSet<Integer>> playersMoves = new ArrayList<>();
